@@ -9,9 +9,8 @@ The aim of this project is to create an app that allows users to upload some dat
 2. User can choose different datasets and variable selection dynamically changes
     a. Finite dtaaset options available via a dropdown
     b. File upload option
-3. Graph can be exported
-4. Combine with ggTag and plot option to enable meta info to be added
-5. Add evaluation code to create reproducible R script
+3. Combine with ggTag and plot option to enable meta info to be added
+4. Add evaluation code to create reproducible R script
 
 # Running the app
 
