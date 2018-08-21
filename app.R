@@ -11,9 +11,17 @@ ui <- fluidPage(
    sidebarLayout(
       sidebarPanel(
         h4("Main Inputs"),
-        selectInput("data_set",
-                     "Dataset:",
-                     choices = c("Airquality"="airquality", "Cars"="mtcars")),
+        # selectInput("data_set",
+        #              "Dataset:",
+        #              choices = c("Airquality"="airquality", "Cars"="mtcars")),
+        
+        # Input file
+        fileInput("file_in", "Dataset",
+                  accept = c(
+                    "text/csv",
+                    "text/comma-separated-values,text/plain",
+                    ".csv")
+        ),
         
         # Dynamic dropdowns
         uiOutput("response"),
@@ -41,8 +49,21 @@ theme_set(theme_bw(base_size = 14))
 
 server <- function(input, output) {
    
+  
+  # File selection processing
+  data_in = reactive({
+    req(input$file_in)
+    # input$file_in will be NULL initially. After the user selects
+    # and uploads a file, the data will be returned
+
+    readr::read_csv(input$file_in$datapath)
+  })
+  
   # Simple reactive inputs
-  var_options = reactive(names(get(input$data_set)))
+  var_options = reactive({
+    req(input$file_in)
+    names(data_in())
+  })
   explan = reactive(input$explan)
   resp = reactive(input$resp)
   best_fit = reactive(input$best_fit)
@@ -62,9 +83,14 @@ server <- function(input, output) {
                 choices = var_options()[var_options() != resp()])
   })  
   
+
   # Main plot
   the_plot = reactive({
-    base_plot <- ggplot(get(input$data_set), 
+    # Wait until user has chosen variables before trying to plot
+    req(input$resp)
+    req(input$explan)
+    # Base plot with no options
+    base_plot <- ggplot(data_in(), 
                         aes_string(x = explan(), y = resp()))+
       geom_point() +
       ggtitle(plot_title())
@@ -79,12 +105,13 @@ server <- function(input, output) {
   
   # Show the plot
   output$distPlot <- renderPlot({
+    if(is.null(data_in())) return()
     print(the_plot())
   })
   
   # Enable download of the plot
   output$downloadPlot <- downloadHandler(
-    filename = paste0(input$data_set, '.pdf'),
+    filename = paste0(input$file_in$name, '.pdf'),
     content = function(file) {
       ggsave(file,the_plot())
     }
