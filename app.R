@@ -1,29 +1,24 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
 
-# Define UI for application that draws a histogram
+# Application that draws a scatter plot base on simple dataset input choices
+
 ui <- fluidPage(
    
    # Application title
    titlePanel("Modelling App - DEMO"),
    
-   # Sidebar with a slider input for number of bins 
+   # Basic sidebar with a couple of dropdowns
    sidebarLayout(
       sidebarPanel(
         h4("Main Inputs"),
         selectInput("data_set",
                      "Dataset:",
                      choices = c("Airquality"="airquality", "Cars"="mtcars")),
+        
+        # Dynamic dropdowns
         uiOutput("response"),
         uiOutput("explanatory"),
+        
         h4("Graphical Parameters"),
         textInput("plot_title",
                   "Title"),
@@ -33,7 +28,7 @@ ui <- fluidPage(
       ),
       
       
-      # Show a plot of the generated distribution
+      # Show a plot of the two variables
       mainPanel(
          plotOutput("distPlot"),
          downloadButton('downloadPlot', 'Save Plot')
@@ -43,7 +38,7 @@ ui <- fluidPage(
 
 library(ggplot2)
 theme_set(theme_bw(base_size = 14))
-# Define server logic required to draw a histogram
+
 server <- function(input, output) {
    
   # Simple reactive inputs
