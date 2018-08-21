@@ -1,0 +1,6 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^test-ggTag.R$
+^build.R
+
+^\.travis\.yml$
