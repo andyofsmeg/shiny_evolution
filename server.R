@@ -1,6 +1,3 @@
-library(ggplot2)
-theme_set(theme_bw(base_size = 14))
-
 server <- function(input, output) {
    
   
@@ -27,6 +24,7 @@ server <- function(input, output) {
   resp = reactive(input$resp)
   best_fit = reactive(input$best_fit)
   plot_title = reactive(input$plot_title)
+  tagged = reactive(input$tagged)
 
   
   # UI
@@ -54,10 +52,13 @@ server <- function(input, output) {
       geom_point() +
       ggtitle(plot_title())
     if(best_fit()){
-      base_plot + 
+      base_plot <- base_plot + 
         geom_smooth(method = "lm", se = FALSE)
     }
-    else{
+    if(tagged()){
+      pharmaTag(base_plot, protocol = "ABC", population = "ITT")
+    }
+    else {
       base_plot
     }
   })
@@ -76,11 +77,18 @@ server <- function(input, output) {
     }
   )
   
-  # Download button only appears once input data are selected
+  # Taggin option and download button only appears once input data are selected
   output$downloadButton <- renderUI({
     req(input$file_in)
     downloadButton('downloadPlot', 'Save Plot')
   }) 
+  
+  output$ggtag <- renderUI({
+    req(input$file_in)
+    checkboxInput("tagged",
+                  "Add metadata?",
+                  value=FALSE)
+  })
   
 }
 

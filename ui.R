@@ -1,7 +1,4 @@
-library(shiny)
-
 # Application that draws a scatter plot base on simple dataset input choices
-
 ui <- fluidPage(
    
    # Application title
@@ -35,7 +32,8 @@ ui <- fluidPage(
                   "Title"),
         checkboxInput("best_fit",
                       "Add line of best fit?",
-                      value=FALSE)
+                      value=FALSE),
+        uiOutput("ggtag")
       ),
       
       

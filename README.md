@@ -11,6 +11,7 @@ The aim of this project is to create an app that allows users to upload some dat
     a. Finite dataset options available via a dropdown
     b. File upload option
     
+    
 3. Combine with ggTag and plot option to enable meta info to be added
 4. Add evaluation code to create reproducible R script
 
