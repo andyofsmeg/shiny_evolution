@@ -7,11 +7,16 @@ server <- function(input, output) {
   # File selection processing
   data_in = reactive({
     req(input$file_in)
-    # input$file_in will be NULL initially. After the user selects
-    # and uploads a file, the data will be returned
-
-    readr::read_csv(input$file_in$datapath)
+    # Detect if it's a SAS file and use appropriate read function
+    if(grepl(".sas7bdat$", input$file_in$name)){
+      haven::read_sas(input$file_in$datapath)
+    }
+    else {
+      readr::read_csv(input$file_in$datapath)
+    }
   })
+  
+  
   
   # Simple reactive inputs
   var_options = reactive({
