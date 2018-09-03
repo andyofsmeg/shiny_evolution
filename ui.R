@@ -41,5 +41,6 @@ ui <- fluidPage(
          plotOutput("distPlot"),
          uiOutput("downloadButton")
       )
+      
    )
 )
