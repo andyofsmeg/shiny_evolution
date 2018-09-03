@@ -14,7 +14,7 @@ server <- function(input, output) {
   })
   
   
-  
+  # ----------------------------------------------------------------------------
   # Simple reactive inputs
   var_options = reactive({
     req(input$file_in)
@@ -26,8 +26,10 @@ server <- function(input, output) {
   plot_title = reactive(input$plot_title)
   tagged = reactive(input$tagged)
 
-  
+  # ----------------------------------------------------------------------------
   # UI
+  
+  # Response
   output$response <- renderUI({
     selectInput("resp",
                 "Response:",
@@ -40,8 +42,31 @@ server <- function(input, output) {
                 choices = var_options()[var_options() != resp()])
   })  
   
-
-  # Main plot
+  # Graph parameter UI  
+  output$graph_params <- renderUI({
+    req(input$file_in)
+    tagList(
+      h4("Graphical Parameters"),
+      
+      textInput("plot_title",
+                "Title"),
+      checkboxInput("best_fit",
+                    "Add line of best fit?",
+                    value=FALSE),
+      checkboxInput("tagged",
+                    "Add metadata?",
+                    value=FALSE)
+    )
+  })
+  
+  # Tagging option and download button only appears once input data are selected
+  output$downloadButton <- renderUI({
+    req(input$file_in)
+    downloadButton('downloadPlot', 'Save Plot')
+  }) 
+  
+  # ----------------------------------------------------------------------------
+  # Main plot definition
   the_plot = reactive({
     # Wait until user has chosen variables before trying to plot
     req(input$resp)
@@ -77,19 +102,7 @@ server <- function(input, output) {
     }
   )
   
-  # Taggin option and download button only appears once input data are selected
-  output$downloadButton <- renderUI({
-    req(input$file_in)
-    downloadButton('downloadPlot', 'Save Plot')
-  }) 
-  
-  output$ggtag <- renderUI({
-    req(input$file_in)
-    checkboxInput("tagged",
-                  "Add metadata?",
-                  value=FALSE)
-  })
-  
+
 }
 
 

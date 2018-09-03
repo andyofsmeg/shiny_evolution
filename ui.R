@@ -8,10 +8,7 @@ ui <- fluidPage(
    sidebarLayout(
       sidebarPanel(
         h4("Main Inputs"),
-        # selectInput("data_set",
-        #              "Dataset:",
-        #              choices = c("Airquality"="airquality", "Cars"="mtcars")),
-        
+
         # Input file
         fileInput("file_in", "Dataset",
                   accept = c(
@@ -23,17 +20,11 @@ ui <- fluidPage(
                     '.sas7bdat')
         ),
         
-        # Dynamic dropdowns
+        # Dynamic dropdowns (appear once user selects input data
         uiOutput("response"),
         uiOutput("explanatory"),
         
-        h4("Graphical Parameters"),
-        textInput("plot_title",
-                  "Title"),
-        checkboxInput("best_fit",
-                      "Add line of best fit?",
-                      value=FALSE),
-        uiOutput("ggtag")
+        uiOutput("graph_params")
       ),
       
       
