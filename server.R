@@ -75,7 +75,7 @@ server <- function(input, output) {
   output$downloadButton <- renderUI({
     req(input$file_in)
     downloadButton('downloadPlot', 'Save Plot')
-  })
+  }) 
   
 }
 
