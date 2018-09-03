@@ -52,7 +52,15 @@ server <- function(input, output) {
                 "Title"),
       checkboxInput("best_fit",
                     "Add line of best fit?",
-                    value=FALSE),
+                    value=FALSE)
+    )
+  })
+  
+  output$export_zone <- renderUI({
+    req(input$file_in)
+    tagList(
+      h4("Export Options"),
+
       checkboxInput("tagged",
                     "Add metadata?",
                     value=FALSE)

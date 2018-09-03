@@ -24,7 +24,8 @@ ui <- fluidPage(
         uiOutput("response"),
         uiOutput("explanatory"),
         
-        uiOutput("graph_params")
+        uiOutput("graph_params"),
+        uiOutput("export_zone")
       ),
       
       
