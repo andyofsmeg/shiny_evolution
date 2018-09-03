@@ -39,7 +39,7 @@ ui <- fluidPage(
       # Show a plot of the two variables
       mainPanel(
          plotOutput("distPlot"),
-         downloadButton('downloadPlot', 'Save Plot')
+         uiOutput("downloadButton")
       )
    )
 )

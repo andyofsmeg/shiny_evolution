@@ -57,7 +57,7 @@ server <- function(input, output) {
     }
   })
   
-  # Show the plot
+  # Return the plot
   output$distPlot <- renderPlot({
     if(is.null(data_in())) return()
     print(the_plot())
@@ -70,6 +70,13 @@ server <- function(input, output) {
       ggsave(file,the_plot())
     }
   )
+  
+  # Download button only appears once input data are selected
+  output$downloadButton <- renderUI({
+    req(input$file_in)
+    downloadButton('downloadPlot', 'Save Plot')
+  })
+  
 }
 
 

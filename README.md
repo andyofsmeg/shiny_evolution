@@ -7,7 +7,7 @@ The aim of this project is to create an app that allows users to upload some dat
 
 1. User can choose columns from the airquality dataset and plot these as a scatter plot
 2. User can choose different datasets and variable selection dynamically changes
-    a. Finite dtaaset options available via a dropdown
+    a. Finite dataset options available via a dropdown
     b. File upload option
 3. Combine with ggTag and plot option to enable meta info to be added
 4. Add evaluation code to create reproducible R script
