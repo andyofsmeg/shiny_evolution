@@ -1,39 +1,43 @@
 # Application that draws a scatter plot base on simple dataset input choices
 ui <- fluidPage(
-   
-   # Application title
-   titlePanel("Modelling App - DEMO"),
-   
-   # Basic sidebar with a couple of dropdowns
-   sidebarLayout(
-      sidebarPanel(
-        h4("Main Inputs"),
-
-        # Input file
-        fileInput("file_in", "Dataset",
-                  accept = c(
-                    'text/csv',
-                    'text/comma-separated-values',
-                    'text/tab-separated-values',
-                    'text/plain',
-                    '.csv',
-                    '.sas7bdat')
-        ),
-        
-        # Dynamic dropdowns (appear once user selects input data
-        uiOutput("response"),
-        uiOutput("explanatory"),
-        
-        uiOutput("graph_params"),
-        uiOutput("export_zone")
-      ),
-      
-      
-      # Show a plot of the two variables
-      mainPanel(
-         plotOutput("distPlot"),
-         uiOutput("downloadButton")
-      )
-      
-   )
+  
+  # Application title
+  titlePanel("Modelling App - DEMO"),
+  
+  # Basic sidebar with a couple of dropdowns
+  fluidRow(
+    column(2,
+           
+           h4("Main Inputs"),
+           
+           # Input file
+           fileInput("file_in", "Dataset",
+                     accept = c(
+                       'text/csv',
+                       'text/comma-separated-values',
+                       'text/tab-separated-values',
+                       'text/plain',
+                       '.csv',
+                       '.sas7bdat')
+           ),
+           
+           # Dynamic dropdowns (appear once user selects input data
+           uiOutput("response"),
+           uiOutput("explanatory"),
+           uiOutput("graph_params")
+    ),
+    
+    
+    # Show a plot of the two variables
+    column(9,
+           plotOutput("distPlot")
+    )
+    
+  ),
+  fluidRow(
+    column(9,offset=2,
+           uiOutput("export_zone"),
+           uiOutput("downloadButton")
+    )
+    )
 )
