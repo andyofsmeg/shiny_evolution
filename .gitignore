@@ -36,5 +36,7 @@ vignettes/*.pdf
 #Other
 build.R
 /*.Rproj
-air.cvs
+air.csv
 air.sas7bdat
+air.xpt
+app.R
