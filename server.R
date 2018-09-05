@@ -25,6 +25,12 @@ server <- function(input, output) {
   best_fit = reactive(input$best_fit)
   plot_title = reactive(input$plot_title)
   tagged = reactive(input$tagged)
+  
+  # Default output name to input name, relacing extension
+  outfile = reactive({
+    outname <- str_split(input$file_in$name, "\\.")[[1]][1]
+    paste0(outname, '.zip')}
+  )
 
   # ----------------------------------------------------------------------------
   # UI
@@ -85,7 +91,7 @@ server <- function(input, output) {
   # Tagging option and download button only appears once input data are selected
   output$downloadButton <- renderUI({
     req(input$file_in)
-    downloadButton('downloadPlot', 'Save Plot')
+    downloadButton('downloadPlot', 'Export')
   }) 
   
   # ----------------------------------------------------------------------------
@@ -103,25 +109,47 @@ server <- function(input, output) {
       base_plot <- base_plot + 
         geom_smooth(method = "lm", se = FALSE)
     }
-    if(tagged()){
-      pharmaTag(base_plot, protocol = "ABC", population = "ITT")
-    }
-    else {
+
       base_plot
-    }
+
   })
   
   # Return the plot
-  output$distPlot <- renderPlot({
+  output$dist_plot_main <- renderPlot({
     if(is.null(data_in())) return()
     print(the_plot())
   })
+  output$dist_plot_meta <- renderPlot({
+    if(is.null(data_in())) return()
+    meta_plot <- pharmaTag(the_plot(), protocol = "ABC", population = "ITT")
+  })
+  
+  
   
   # Enable download of the plot
   output$downloadPlot <- downloadHandler(
-    filename = paste0(input$file_in$name, '.pdf'),
+    filename = function(){
+      #paste0(input$file_in$name, 'zip')
+      outfile()
+    },
     content = function(file) {
-      ggsave(file,the_plot())
+      #ggsave(file,the_plot())
+      #go to a temp dir to avoid permission issues
+      owd <- setwd(tempdir())
+      on.exit(setwd(owd))
+
+      #write out each file
+      png("out.png")
+      print(the_plot())
+      dev.off()
+      pdf("out.pdf")
+      pharmaTag(the_plot(), protocol = "ABC", population = "ITT")
+      dev.off()
+      
+      files <- c("out.png", "out.pdf")
+
+      #create the zip file
+      zip(file,files)
     }
   )
   

@@ -30,15 +30,15 @@ ui <- fluidPage(
     
     # Show a plot of the two variables
     column(7,
-           #tabsetPanel(type="tabs",
-           #tabPanel("Main", plotOutput("distPlot")),
-           #tabPanel("Meta", plotOutput("distPlot")),
-           plotOutput("distPlot")
-           #)
-  #  )
+           tabsetPanel(type="tabs",
+                       tabPanel("Main", plotOutput("dist_plot_main")),
+                       tabPanel("Meta", plotOutput("dist_plot_meta"))
+                       #plotOutput("distPlot")
+           )
+
+           
+    ),
     
-  ),
-  #fluidRow(
     column(2,#offset=2,
            uiOutput("export_zone"),
            uiOutput("downloadButton")
