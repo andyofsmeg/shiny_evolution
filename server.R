@@ -60,9 +60,24 @@ server <- function(input, output) {
     req(input$file_in)
     tagList(
       h4("Export Options"),
+      
+ #     splitLayout(cellWidths=c(80,80,80),
+        checkboxInput("out2pdf",
+                      "PDF?",
+                      value=TRUE),
+        
+        checkboxInput("out2png",
+                      "PNG?",
+                      value=FALSE),
+        
+        checkboxInput("output_code",
+                      "Code?",
+                      value=FALSE),
+  #    ),
+
 
       checkboxInput("tagged",
-                    "Add metadata?",
+                    "Add metadata to PDF?",
                     value=FALSE)
     )
   })
