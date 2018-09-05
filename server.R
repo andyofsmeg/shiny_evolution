@@ -138,13 +138,22 @@ server <- function(input, output) {
       owd <- setwd(tempdir())
       on.exit(setwd(owd))
 
-      #write out each file
-      png("out.png")
-      print(the_plot())
-      dev.off()
-      pdf("out.pdf")
-      pharmaTag(the_plot(), protocol = "ABC", population = "ITT")
-      dev.off()
+      #write out each file as selected by user
+      if(input$out2png){
+        png("out.png")
+        print(the_plot())
+        dev.off()
+      }
+      if(input$out2pdf){
+        pdf("out.pdf")
+        if(input$tagged){
+          pharmaTag(the_plot(), protocol = "ABC", population = "ITT")
+        }
+        else{
+          print(the_plot()) 
+        }
+        dev.off()
+      }
       
       files <- c("out.png", "out.pdf")
 
