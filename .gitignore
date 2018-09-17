@@ -40,3 +40,5 @@ air.csv
 air.sas7bdat
 air.xpt
 app.R
+slides.*
+*.sas7bdat
