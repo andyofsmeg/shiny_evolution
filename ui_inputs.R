@@ -17,7 +17,7 @@ output$response <- renderUI({
 output$explanatory <- renderUI({
   selectInput("explan",
               "Explanatory variable:",
-              choices = var_options()[var_options() != resp()])
+              choices = var_options()[var_options() != input$resp])
 })  
 
 # Graph parameters  

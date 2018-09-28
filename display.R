@@ -1,36 +1,39 @@
 # ------------------------------------------------------------------------------
 # Display tabs
 
-# Some simple reactive options
-explan = reactive(input$explan)
-resp = reactive(input$resp)
-
-
-the_plot = reactive({
+# A reactive base graphic
+base_plot = reactive({
   # Wait until user has chosen variables before trying to plot
-  req(resp())
-  req(explan())
+  req(input$explan)
+  req(input$resp)
   # Base plot with no options
   base_plot <- ggplot(data_in(), 
-                      aes_string(x = explan(), y = resp()))+
-    geom_point() +
-    ggtitle(input$plot_title)
-  
-  # Add best fit line?
-  if(input$best_fit){
-    base_plot <- base_plot + 
-      geom_smooth(method = "lm", se = FALSE)
-  }
-  
+                      aes_string(x = input$explan, y = input$resp))+
+    geom_point() 
   base_plot
-  
 })
 
-# Return the plot
+
+# Another reactive graphic
+the_plot <- reactive({
+  # Add title if specified
+  the_plot <- base_plot() + 
+    ggtitle(input$plot_title) 
+  # Add line of best fit if requested
+  if(input$best_fit){
+    the_plot <- base_plot() + 
+      geom_smooth(method = "lm", se = FALSE)
+  }
+  the_plot
+})
+  
+# Output of reactive graphic
 output$dist_plot_main <- renderPlot({
   if(is.null(data_in())) return()
   print(the_plot())
 })
+
+# Output of reactive graphic
 output$dist_plot_meta <- renderPlot({
   if(is.null(data_in())) return()
   meta_plot <- pharmaTag(the_plot(), protocol = "ABC", population = "ITT")
