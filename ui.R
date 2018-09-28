@@ -28,7 +28,7 @@ ui <- fluidPage(theme = shinytheme("united"),
            # Y vs X
            uiOutput("response"),
            uiOutput("explanatory"),
-           
+
            # Graphical Options
            uiOutput("graph_params")
     ),

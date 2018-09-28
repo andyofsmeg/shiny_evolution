@@ -2,7 +2,7 @@
 # IU Inputs
 # Once user has selected the data then we know what variables there are
 var_options = reactive({
-  req(input$file_in)
+  req(data_in())
   names(data_in())
 })
 
@@ -19,7 +19,6 @@ output$explanatory <- renderUI({
               "Explanatory variable:",
               choices = var_options()[var_options() != resp()])
 })  
-
 
 # Graph parameters  
 output$graph_params <- renderUI({

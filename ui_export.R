@@ -26,6 +26,10 @@ output$export_zone <- renderUI({
                   "Code?",
                   value=FALSE),
     
+    checkboxInput("output_data",
+                  "Data?",
+                  value=FALSE),
+    
     checkboxInput("tagged",
                   "Add metadata to PDF?",
                   value=FALSE)

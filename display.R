@@ -36,11 +36,18 @@ output$dist_plot_meta <- renderPlot({
   meta_plot <- pharmaTag(the_plot(), protocol = "ABC", population = "ITT")
 })
 
+# Return the data
+output$data_view <- renderDT({
+  if(is.null(data_in())) return()
+  datatable(data_in(), options = list(scrollX = TRUE))
+})
+
+
 output$display_tabs <- renderUI({
   req(input$file_in)
   tabsetPanel(type="tabs",
               tabPanel("Main", plotOutput("dist_plot_main")),
-              tabPanel("Meta", plotOutput("dist_plot_meta"))
-              #plotOutput("distPlot")
+              tabPanel("Meta", plotOutput("dist_plot_meta")),
+              tabPanel("Data", DTOutput("data_view"))
   )
 })
